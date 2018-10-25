@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>homepage</title>
+     <script src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/home.js">
+    </script>
+    <style>
+        body{
+            background: url("/static/img/mainbg.jpg");
+            background-attachment: fixed;
+            background-size:cover;
+            position: absolute;
+            margin: 0 auto;
+            width: 100%;
+            font-size: 20px;
+        }
+        p{
+            color: whitesmoke;
+        }
+        h2{
+        	color: white;
+        	width: 100%;
+        }
+        .Title{
+        	text-align: center;
+    		color: white;
+			border-bottom: 1px solid white ;
+			padding-bottom: 10px;
+			margin: 10px 0;
+			font-size:30px;
+    		width: 1920px;
+        }
+        #regist{
+        	position: relative;
+        	width: 1920px;
+        	margin-right: 100px;
+        }
+        .form-line{
+        	padding:20px 0;
+    		color: white;
+    		position: relative;
+    		right: 60px;
+    		width:900px;
+    		float: right;
+        }
+        .left-line{
+        	position: relative;
+    		left: 590px;
+    		top: 70px;
+    		float: left;
+    		width: 350px; 
+    		height: 300px;
+        }
+        .right-line{
+        	width: 1920px;
+        	padding-top: 50px;
+        }
+        .form-control{
+        	width: 260px;
+            height: 30px;
+            margin-left: 20px;
+            margin-right: 0px;
+            padding: 0;
+        }
+
+        .loginBtn,.registBtn{
+        	margin: 10px;
+	width: 140px;
+	height: 40px;
+	font-size:18px;
+	color: white;
+	background-color:rgba(255,255,255,0.2); 
+	border: 1px solid white;
+	border-radius: 4px;
+	cursor: pointer;
+	position: relative;
+	left: 30px;
+        }
+        .clearfloat{
+	clear: both;
+        }
+    </style>
+</head>
+<body>
+    <!--页面分为上下两部分-->
+    <h2 class="Title" style="color: white;">考研选座系统</h2>
+    <div id="regist">
+    <!-- 左列-->
+        <div class="left-line">
+            <img src="/static/img/touxiang/2.jpg" id="avarimgs" class="img-circle img-thumbnail img-responsive"
+            style="width: 200px; height:200px;border-radius: 50%;margin-left: 50px">
+        </div>
+    <!-- 右列-->
+    <div class="right-line">
+        <!-- 第一行-->
+        <div class="form-line">
+        {% csrf_token %}
+        用户名
+                <input type="text" name="uName" pattern="[A-z]{3,12}"
+                       class="form-control"
+                       placeholder="请输入用户名,长度为3~12并且由字母组成"
+                       maxlength="12" minlength="3" id="uName">
+        </div>
+         <!--第二行-->
+        <div class="form-line" id="Pwd">&nbsp;&nbsp;&nbsp;密码
+                <input type="password" name="uPwd" pattern="[A-Za-z].*[0-9]|[0-9].*[A-Za-z]"
+                       class="form-control" 
+                       placeholder="请输入密码,数组与字母组合"
+                       maxlength="12" minlength="6" id="uPwd">
+        </div>
+        <!-- 第三行-->
+        <div class="form-line">
+            <p style="color: whitesmoke;background: none"></p>
+            <div>
+                <input type="button" class="loginBtn btn" value="登录" id="btnLogin">
+                <input type="button" class="registBtn btn" value="新用户注册" id="toRegister">
+            </div>
+        </div>
+        <div class="clearfloat"></div>
+    </div>
+    </div>
+    <script>
+            $(function () {
+            $('#btnLogin').click(function () {
+                $('#uName').reset;
+                csrf = $('input').val();
+                name = $('#uName').val();
+                password = $('#uPwd').val();
+                //发起ajax请求，注意csrf攻击
+                $.post('/login_check/', {
+                    'csrfmiddlewaretoken':csrf,
+                    'uName': name,
+                    'uPwd': password,
+                }, function (data) {
+                    //获取返回的数据并进行操作
+                    if (data.msg === 'ok') {
+                        //登录成功
+                        location.href = '/userInfo/' //跳转到成功页面
+                    } 
+                    if (data.msg === 'fail_user') {
+                        // $('#loginMsg').show().text('用户名或密码错误')
+                        alert('用户名或密码错误')
+                    }
+                })
+            });
+            $('#toRegister').click(function(){
+                location.href = '/register/' ;
+            });
+        });
+    </script>
+</body>
+</html>

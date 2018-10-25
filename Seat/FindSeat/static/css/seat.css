@@ -1,0 +1,117 @@
+body{
+    margin: 0;
+    padding: 0;
+    line-height: 1.5em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: #ffffff;
+    background: #250d0b url("/static/img/mainbg.jpg");
+    background-size: cover;
+    z-index: 2;
+} /*start booking*/ 
+
+#screen{
+    display: block;
+    padding-top: 10px;
+    width: 600px;
+    height: 50px;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    background-color:rgba(255, 255, 255,0.2);
+    /* border: 3px solid #af1313; */
+    border-radius: 5px;
+    text-align: center;
+    margin: 10px auto 20px auto;
+} 
+#seats{
+    border: 1px solid green;
+    text-align: center;
+    width: 660px;
+    margin: 0 auto;
+    padding: 10px;
+    background: rgba(255, 255, 255,0);
+    box-sizing: content-box !important;
+} 
+.seat{
+    float: left;
+    width: 56px;
+    box-sizing: border-box;
+    color: white;
+    padding: 12px 1px;
+    height: 56px;
+    background: rgba(255, 255, 255,0);
+    border: 1px solid #979797;
+    border-radius: 20%;
+    margin: 5px;
+    text-align: center;
+    /* border-bottom: 3px solid #F35E4F; */
+    cursor: pointer;
+} 
+.seat:hover{
+    box-shadow:1px 1px 1px 1px grey;
+}
+.seatsRaw {
+    display:inline-block;
+} 
+#booking_desc {
+    width: 550px;
+    background-color: rgba(255, 255, 255,0.2);
+    color: #FAFAFA;
+    margin: 30px auto;
+    padding: 10px;
+    display: table;
+    border-radius: 10px;
+} 
+.booking_left, .booking_right {
+        /* width:250px; */
+        float:left;
+} 
+.booking_left{
+    width:100%;
+}
+#total span {
+    font-size: 16px;
+    color: burlywood;
+} 
+.time{
+    height: 30px;
+}
+
+#booking_desc .time div{
+    float: left;
+    margin-left: 20px;
+    text-align: center;
+}
+#booking_desc .time #begintime,#booking_desc .time #endtime{
+    border-radius: 6px;
+    color:black;
+}
+
+#errMsg{
+    color: #FF7777;
+} /*end booking*/
+
+#bookNowButton{
+    color:black;
+    border-radius: 6px;
+}
+
+#selected_seat{
+    float: left;
+}
+
+#myModalLabel{
+    color: black;
+}
+
+.modal-body{
+    color: black;
+}
+
+#userId{
+    font-size: 30px;
+    line-height: 40px;
+    font-family: tahoma;
+    text-align: center;
+}

@@ -1,0 +1,107 @@
+/*１．清除浏览器默认样式*/
+body,h2,p{
+    margin:0;
+}
+/*２．从外向里添加样式*/
+#container{
+    width:820px;
+    margin:0 auto;
+}
+/*３．标题样式*/
+#container h2{
+    text-align:center;
+    font-weight:normal;
+    color:black;
+    border-bottom:1px solid white;
+    padding-bottom:20px;
+    padding-top:50px;
+    margin-bottom:35px;
+}
+/*4*/
+#regist>p{
+    float:left;
+    position:relative;
+}
+
+/*5.*/
+#regist>p>a{
+    position:absolute;
+    width:145px;
+    height:44px;
+    border:0px solid black;
+    text-align:center;
+    line-height:44px;
+    border-radius:5px;
+    text-decoration:none;
+    color:black;
+    bottom:-42px;
+    left:80px;
+}
+
+/*6.*/
+#regist>form{
+    float:right;
+    margin-right:45px;
+    margin-top:-260px;
+}
+/*7.*/
+.form-line{
+    margin-top:20px;
+    /*子元素都浮动，父元素为０*/
+    height:40px;
+}
+/*8.*/
+.form-line>p{
+    color:black;
+    float:left;
+    width:64px;
+    height:40px;
+    text-align:right;
+    line-height:40px;
+    margin-right:40px;
+}
+
+/*9.*/
+.form-line>div{
+    float:left;
+    width:300px;
+}
+/*10.*/
+.form-control{
+    width:288px;
+    height:40px;
+    box-sizing:border-box;
+    border:1px solid black;
+    outline:none;
+    padding:0 12px;
+    font-size:14px;
+}
+/*11.*/
+.form-line label{
+    color:black;
+}
+/*12.*/
+.btn{
+    width:145px;
+    height:38px;
+    border:1px solid black;
+    border-radius:5px;
+    /*background:black;*/
+    color:black;
+    font-sizing:16px;
+    margin-right:10px;
+}
+/*13.*/
+.registBtn{
+    background:#fff;
+    color:black;
+    margin-right:0;
+}
+/*14.*/
+.loginBtn{
+    float:left;
+}
+
+#xdaTanFileImg{
+    margin-top:15px;
+}

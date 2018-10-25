@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>注册个人信息</title>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/home.js"></script>
+    <style type="text/css">
+        body,div{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-image: url('/static/img/mainbg.jpg');
+            background-attachment:fixed;
+            background-size:1930px 1080px;
+            background-position:center 0;
+            position: absolute;
+            margin: 0 auto;
+            width: 100%;
+            font-size: 20px;
+        }
+        .Title{
+            text-align: center;
+            color: white;
+            border-bottom: 1px solid white ;
+            padding-bottom: 10px;
+            margin: 10px;
+            font-size:30px;
+            width: 1930px;
+            
+        }
+        .form-line{
+            margin:20px 0;
+            color: white;
+            position: relative;
+            right: 280px;
+            width:1000px;
+            float: right;
+        }
+        #yzm{
+            position: relative;
+            right: 267px;
+        }
+        .content{
+            text-align: center;
+            color: white;
+            width: 1920px;
+        }
+
+        .text1{
+            position: relative;
+            left: 10px;
+        }
+        .text2{
+            position: relative;
+            left:20px;
+        }
+        .clearfloat{
+            clear: both;
+        }
+        .form-control{
+            width: 260px;
+            height: 30px;
+            margin-left: 20px;
+            margin-right: 0px;
+            padding: 0;
+        }
+
+        .achi{
+            width: 100px;
+            height: 30px;
+            font-size:14px;
+            color: white;
+            background-color:rgba(255,255,255,0.4); 
+            border: 1px solid black;
+            border-radius: 4px;
+            position: relative;
+            top: 10px;
+            left: 110px;
+            cursor: pointer;
+        }
+        .sub{
+            margin: 10px;
+            width: 140px;
+            height: 40px;
+            font-size:18px;
+            color: white;
+            background-color:rgba(255,255,255,0.2); 
+            border: 1px solid white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        /*头像*/
+
+        .lf{
+            position: relative;
+            left: 550px;
+            float: left;
+            width: 350px; 
+            height: 300px;
+        }
+        #choose{
+            cursor: pointer;            
+        }
+        .up{
+            position: relative;
+            left: 106px;
+            top:20px;
+            cursor: pointer;
+            width: 100px;
+            height: 30px;
+            font-size: 14px;
+            border-radius: 4px;
+            border:1px solid white;
+            color: white;
+            background-color:rgba(255,255,255,0.4); 
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#choose').hide
+        });
+    </script>
+</head>
+<body>
+    <!--分为三部分-->
+    <h2 class="Title">用户注册</h2>
+        <div class="lf">
+            <div>
+                <img src="/static/img/touxiang/2.jpg" id="avarimgs" class="img-circle img-thumbnail img-responsive"
+                style="width: 200px; height:200px;border-radius: 50%;margin-top: 50px; margin-left: 50px;">
+            </div>
+            <div style="height:0px; overflow:hidden; position:absolute;">
+                <input type="file" id="choose" accept="image/*" onchange="xmTanUploadImg(this)"/>
+            </div>
+            <button onclick="document.getElementById('choose').click();" class="up">上传头像</button>
+        </div>
+    <div class="content">
+        <!--必填信息-->
+            {% csrf_token %}
+            <!-- 第一行用户名-->
+            <div class="form-line">
+                <div class="text1">用户名
+                    <input type="text" name="uname" pattern="[A-z]{3,12}"
+                           class="form-control" id="uname"
+                           placeholder="请输入用户名,长度为3~12并且由字母组成"
+                           maxlength="12" minlength="3">
+                </div>
+            </div>
+            <!-- 第二行密码-->
+            <div class="form-line">
+                <div class="text2">密码
+                    <input type="password" name="upwd" pattern="[A-Za-z].*[0-9]|[0-9].*[A-Za-z]"
+                           class="form-control" id="upwd"
+                           placeholder="请输入密码,数组与字母组合"
+                           maxlength="12" minlength="6">
+                </div>
+            </div>
+            <!-- 第三行确认密码-->
+            <div class="form-line">
+                     确认密码
+                    <input type="password" name="upwd"
+                           class="form-control" id="upwd2" 
+                           maxlength="12" minlength="6">
+            </div>
+            <!-- 第四行手机号码-->
+            <div class="form-line">
+                     手机号码
+                    <input type="text" name="uphone" class="form-control" id="uphone" maxlength="12">
+            </div>
+            <!-- 第五行手机短信验证码-->
+            <div class="form-line" id="yzm">验证码
+                <input type="text" name="uphone" class="form-control" maxlength="12" placeholder="输入验证码">
+                <br />
+                <input type="button" name="ubu" value="获取验证码" class="achi">
+                
+                
+            </div>
+            <div class="form-line">
+                <input type="button" class="sub" id="btnLogin" value="注册">
+            </div>
+        <div id="loginMsg"></div>
+    </div>
+    <div class="clearfloat"></div>
+    <script type="text/javascript">
+        $(function () {
+            $('#btnLogin').click(function () {
+                name = $('#uname').val();
+                password = $('#upwd').val();
+                password2 = $('#upwd2').val();
+                phone = $('#uphone').val();
+                //发起ajax请求，注意csrf攻击
+                if(password!=password2){
+                    alert('密码重复');
+                }
+                else{
+                    $.post('/register_check/', {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'uname': name,
+                    'upwd': password,
+                    'uphone': phone,
+                    }, 
+                    function(data){
+                    //获取返回的数据并进行操作
+                        if (data.msg === 'ok') {
+                        //登录成功
+                        location.href = '/login/'; //跳转到成功页面                        
+                        } 
+                        if (data.msg === 'fail_user') {
+                            alert('该用户名已经被注册');
+                        }
+                    });
+                };                                    
+            });                            
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+ <!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+		<script src="/static/js/jquery.min.js"></script>
+		<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<style type="text/css">
+			body{
+				background-image: url('/static/img/mainbg.jpg');
+				background-attachment:fixed;
+				background-size:1930px 1080px;
+				background-position:center 0;
+				position: absolute;
+				margin: 0 auto;
+				width: 100%;
+			}
+			.title{
+				font-size:30px;
+				width: 1920px;
+				border-bottom: 1px solid white ;	
+				padding-bottom: 10px;
+				color: white;
+				text-align: center;
+			}
+			/*用户,占座信息*/
+			.line1{
+				padding: 10px;
+				position: relative;
+				left: 34px;
+				top:50px;
+				font-size: 20px;
+				color: white;
+			}
+			.line2{
+				padding: 10px;
+				position: relative;
+				top:80px;
+				font-size: 20px;
+				color: white;
+				
+			}
+			#userId,#pos,#time{
+				width: 200px;
+				height: 30px;
+				background-color: rgba(204,204,204,0.5);
+				border-radius: 10px;
+				float: right;
+				margin: 0 6px;
+			}
+			#pos{
+				position: relative;
+				top: 0px;
+				right: 210px;
+			}
+			#time{
+				position: relative;
+				top: 50px;
+				right: -2px;
+				
+			}
+			#userId{
+				float: right;
+				position: relative;
+				right: 246px;
+			}
+			/*三个按钮*/
+			.line3{
+				padding: 10px;
+				position: relative;
+				top:100px;
+				left: 50px;
+			}
+			#zzBtn,#subBtn,#exitBtn{
+				margin: 10px;
+				width: 140px;
+				height: 40px;
+				font-size:18px;
+				color: white;
+				background-color:rgba(255,255,255,0.2); 
+				border: 1px solid white;
+				border-radius: 4px;
+				position: relative;
+				top:40px;
+				left:-100px;
+			}
+			.left-line{
+				float: left;
+				position: relative;
+				left: 550px;
+				width: 580px;
+				height: 550px;
+			}
+			.right-line{
+				float: left;
+				position: relative;
+				transform: scale(1.2);
+				left:400px;
+			}
+			.img1{
+				width: 500px;
+				height: 500px;
+				margin-top:10px;
+				transform: scale(0.5);
+				position: relative;
+				left:-160px;
+				top: -100px;
+				border-radius: 50%;
+			}
+			.clearfloat{
+				clear: both;
+			}
+			#all{
+				width: 1920px;
+			}
+			#time{
+				font-size: 14px;
+			}
+			#userId,#pos,#time{
+				text-align: center;
+			}
+			.modal-body{
+				font-size: 18px;
+			}
+			.modal-body input{
+				width: 300px;
+				height: 40px;
+			}
+		</style>
+	</head>
+	<body>
+		<!--标题-->
+		<div class="title">用户信息</div>
+		<!--正文-->
+		<!--左-->	
+		<div id="all">
+			<div class="left-line"><img src="/static/img/1.jpg" class="img1"/></div>
+		<!--右-->
+			<div class="right-line">
+				<div>
+					<div class="line1">用户：
+						<div id="userId"></div>
+					</div>
+				</div>
+				<div>
+					<div class="line2">占座信息：
+						<div id="pos"></div>
+						<div id="time"></div>
+					</div>
+				</div>
+				<div class="line3">	
+					<input type="button" name="zzBtn" id="zzBtn" value="选取座位" />
+					<input type="button" name="subBtn" id="subBtn" value="评论" />
+					<input type="button" name="exitBtn" id="exitBtn" value="结束就坐" />
+				</div>
+			</div>
+		<div class="clearfloat"></div>
+		</div>
+		<div class="clearfloat"></div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		        <div class="modal-dialog">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                    <h4 class="modal-title" id="myModalLabel" style="text-align:center;">发表评论(只能在有座位的状态下)</h4>
+		                </div>
+		                <div class="modal-body">
+		                    评论内容：<input type="text" id="Comment" placeholder="输入您的评论">
+		                </div>
+		                <div class="modal-footer">
+		                   <!--  <button type="button" class="btn btn-default" data-dismiss="modal">退出</button> -->
+		                   <button type="button" class="btn btn-default" id="SubmitCommit">发表评论</button>
+		                </div>
+		            </div><!-- /.modal-content -->
+		        </div><!-- /.modal -->
+		</div>     
+	<script type="text/javascript">
+		$(document).ready(function(){
+ 			$.post('/show_message/', {
+				'csrfmiddlewaretoken': '{{ csrf_token }}',
+			}, function (data) {
+				$('#userId').text(data.msg);
+				$('#pos').text(data.pos);
+				$('#time').text("起始时间:"+data.begintime+"   结束时间:"+data.endtime);
+			});
+ 			$('#zzBtn').click(function(){
+                			location.href = '/seat/' ;
+            			});
+ 			$('#subBtn').click(function(){
+ 				if($('#pos').text()=='并没有预约'){
+                				alert('您不在就座状态，无法对座位评论');
+                			}
+ 				else{
+ 					$('#myModal').modal({
+               					show: true,
+            					}); 
+				} 					
+ 			});
+ 			$('#SubmitCommit').click(function(){
+ 				if($('#pos').text().toString()=='并没有预约'){
+                				alert('您不在就座状态，无法对座位评论');
+                			}
+                			else{
+                				var textIndex = $('#Comment').val();
+                				// alert(textIndex);
+                				$.post('/Submit_Commit/', {
+						'csrfmiddlewaretoken': '{{ csrf_token }}',
+						'pos':$('#pos').text().toString(),
+						'comment':textIndex,
+					}, function (data) {
+						alert('发表成功')
+					});
+                				
+                			}
+ 				$('#myModal').modal('hide'); 
+ 			});
+ 			$('#exitBtn').click(function(){
+                			if($('#pos').text()=='并没有预约'){
+                				alert('没有需要下座的位置');
+                			}
+                			else{
+                				// alert('1')
+                				$.post('/cancel_reservation/', {
+						'csrfmiddlewaretoken': '{{ csrf_token }}',
+						'pos':$('#pos').text().toString(),
+					}, function (data) {
+						alert('离座成功')
+						$('#userId').text(data.msg);
+						$('#pos').text(data.pos);
+						$('#time').text("起始时间:"+data.begintime+"   结束时间:"+data.endtime);
+					});
+
+                			}
+            			});
+		});
+
+	</script>		
+	</body>
+</html>

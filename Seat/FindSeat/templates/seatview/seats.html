@@ -1,0 +1,419 @@
+<html>
+<head>
+    <title>座位预定</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script src="../js/bootstrap.min.js"></script> -->
+    <link href="/static/css/seat.css" rel="stylesheet" type="text/css" />
+    <!-- <script src="/static/js/seat-choose.js"></script> -->
+    <style type="text/css">
+    	#return{
+	    	margin: 10px auto;
+			width: 140px;
+			height: 40px;
+			font-size:18px;
+			color: white;
+			background-color:rgba(255,255,255,0.2); 
+			border: 1px solid white;
+			border-radius: 4px;
+			position: relative;
+			left:-184px;
+			top:-700px;
+    	}
+    	#userId{
+    		width: 200px;
+			height: 44px;
+			background-color: rgba(204,204,204,0.5);
+			border-radius: 10px;
+			float: right;
+			margin: 0 6px;
+			float: left;
+			position: relative;
+			left: 20px;
+			top: -760px;
+			}
+    </style>
+</head>
+<body> <!--BOOKING SECTION START-->
+    <script type="text/javascript" color="255,255,255" count="59" src="/static/js/canvas-nest.js"></script> 
+    {% csrf_token %}
+    <div id='background'></div> 
+    <div>
+        <span id='screen'>
+            <p> 座位预定 </p>
+        </span>
+        <div id="seats">
+            <!-- 第一行20个-->
+            <div class="seatsRaw">
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+
+            </div>
+            <!-- 第二行-->
+            <div class="seatsRaw">
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+            </div>
+            <!-- 第三行-->
+            <div class="seatsRaw">
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+            </div>
+            <!-- 第四行-->
+            <div class="seatsRaw">
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+            </div>
+            <!-- 第五行-->
+            <div class="seatsRaw">
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+            </div>
+            <!-- 第六行-->
+            <div class="seatsRaw">
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+            </div>
+            <!-- 第七行-->
+            <div class="seatsRaw">
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+            </div>
+            <!-- 第八行-->
+            <div class="seatsRaw">
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+                <div class="seat"></div>
+            </div>
+        </div>
+    </div>
+    <div id="booking_desc">
+        <div class="booking_left" align='center'>
+            <p style="color: #FBBC53;font-weight: bold; font-size: larger;text-align:center;">您选中的座位 </p>
+            <div id="selected_seat"></div>
+            <div class="time">
+                <!-- <input type="time" name="" value="06:00" id="begintime">
+                <input type="time" name="" value="07:00" id="endtime"> -->
+            </div>
+            <br>
+            
+            <button id="bookNowButton" type="button">现在预定</button>
+            <div id="errMsg"></div>
+        </div>
+        <br><br>
+    </div>    
+
+        
+    <!-- <input type="button" class="c1" name="login" value="登录"> -->
+    <!-- <button type="button" class="btn btn-primary c1" data-toggle="modal" data-target="#myModal">登录</button> -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel" style="text-align:center;"></h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                   <!--  <button type="button" class="btn btn-default" data-dismiss="modal">退出</button> -->
+                   <button type="button" class="btn btn-default" id="changeToCommit">评论页面</button>
+                    <button type="button" class="btn btn-primary" id="changeToTime" >占用时间</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>     
+    <script>
+        /**
+ * Created by tedu on 2018/10/16.
+ */
+$(document).ready(function(){
+    $.post('/show_message/', {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+    }, function (data) {
+                var Msg = data.msg;
+                $('#userId').text(Msg);
+    });
+    var seat_num ;
+    var total_bill      = 0 ;
+    //var pricePerTicked  = 300;//单价
+    var maximumSeats    =   1;//预定座位数目的最大限制
+
+    $('#bookNowButton').hide(); // 隐藏预定按钮
+
+    $('.seat').each(function() {
+        var column_num = parseInt( $(this).index() ) + 1;
+        var row_num = parseInt( $(this).parent().index() )+1;
+        seat_num = row_num+"-"+column_num ;
+        $(this).text(seat_num); // 座位号
+        $(this).addClass("seat"+seat_num);  // 个座位加css
+    });
+
+    $.get('/download_seat/',function(data){
+    var Msg = data.msg;
+    for(i=0;i<Msg.length;i++){
+        // alert(Msg[i]);
+        $('#seats .'+Msg[i]).css('background-color','red');
+        $('#seats .'+Msg[i]).addClass("selected")
+        $('#seats .'+Msg[i]).removeClass("select")
+    }
+    });
+
+    // $('#seats .seat1-2').css('background-color','#71DCAA');
+    // $('#seats .seat1-2').addClass('select');
+    // var columnIndex = parseInt($('#seats .seat1-2').index() ) + 1;
+    // var rowIndex = parseInt($('#seats .seat1-2').parent().index() )+1;
+    // $("#selected_seat").append("<span class='your_selected_seat seat"+rowIndex+"-"+columnIndex+" '> " +
+    //             "座位号: <b style='color:#EAABFF'>" + rowIndex+"-"+columnIndex +"</b> </br></span>");
+    // $('#bookNowButton').fadeIn(1000);
+
+    $("#seats .seat").mouseover(function(){ 
+        if(!$(this).hasClass('selected')){
+            $(this).css({'transform':'scale(1.3)'});
+        };
+
+    });
+
+    $("#seats .seat").mouseleave(function(){ 
+        $(this).css({'transform':'scale(1)'}); 
+    });
+
+    $('#changeToCommit').click(function(){
+        if($('#myModalLabel').text().substring(8)!='评论'){
+            textNoob = $('#myModalLabel').text().substring(0,7);
+            // alert(textNoob)
+            $('#myModalLabel').text(textNoob+'的评论')
+        }
+        $('#myModal .modal-body span').remove();     
+        // alert($('#myModalLabel').text().substring(0,7));
+        $.post('/download_comment/',{
+                'csrfmiddlewaretoken':'{{ csrf_token }}',
+                'seatid':$('#myModalLabel').text().toString().substring(0,7),
+            }
+            ,function(data){
+                var Msg = data.msg;
+                // alert(Msg)
+                // alert('12121');
+                for(i=0;i<Msg.length;i++)
+                {
+                    if(Msg[i][0].toString() != 'null')
+                    {
+                        $('#myModal .modal-body').append("<span><p>"+Msg[i][0]+"："+Msg[i][1]+"</p></span");
+                    }
+                }
+            });
+    });
+
+    $('#changeToTime').click(function(){
+        if($('#myModalLabel').text().substring(8)!='占用时间'){
+            // alert(1);
+            textNoob = $('#myModalLabel').text().substring(0,7);
+            $('#myModalLabel').text(textNoob+'的占用时间')
+            // alert($('#myModalLabel').text())
+        }
+        $('#myModal .modal-body span').remove(); 
+        $.post('/download_ordertime/',{
+                'csrfmiddlewaretoken':'{{ csrf_token }}',
+                'seatid':$('#myModalLabel').text().substring(0,7),
+            }
+            ,function(data){
+                var Msg = data.msg;
+                // alert('12121');
+                for(i=0;i<Msg.length;i++)
+                {
+                    if(Msg[i][0].toString() != 'null')
+                    {
+                        $('#myModal .modal-body').append("<span><p>"+Msg[i][0]+"的预约－－"+"起始时间："+Msg[i][1]+"     结束时间："+Msg[i][2]+"</p></span");
+                    }
+                }
+            });
+    });
+
+
+
+    $("#seats .seat").click(function() {
+        $('#errMsg').html('');
+        $('div.comment').show();
+
+        if(!$(this).hasClass('select')){
+            $('#myModalLabel').text($(this).attr('class').split(' ')[1]+'的评论');
+            $.post('/download_comment/',{
+                'csrfmiddlewaretoken':'{{ csrf_token }}',
+                'seatid':$(this).attr('class').split(' ')[1] ,
+            }
+            ,function(data){
+                var Msg = data.msg;
+                for(i=0;i<Msg.length;i++)
+                {
+                    if(Msg[i][0].toString() != 'null')
+                    {
+                        $('#myModal .modal-body').append("<span><p>"+Msg[i][0]+"："+Msg[i][1]+"</p></span");
+                    }
+                    
+                }
+            });
+
+            $('#myModal').modal({
+                show: true,
+            }); 
+            $('#myModal .modal-body span').remove()     
+        }         
+        // alert($(".your_selected_seat").length);
+
+
+        if(!$(this).hasClass('selected')){
+            if($(this).hasClass('select')){ // 检查是否被选中
+                $(this).removeClass('select'); //如果选中了，移除选中的css
+                $(this).css('background-color','rgba(255, 255, 255,0)'); // 重新加个背景
+    
+                var currentSeatClass = $(this).attr('class').split(' ')[1];
+    
+                console.log(currentSeatClass);
+                $( "#selected_seat ."+currentSeatClass ).remove();
+                $(".time div").remove();
+    
+            }else if($(".your_selected_seat").length<=maximumSeats && !$(this).hasClass('select')){
+
+                $('#seats .seat').each(function() {   
+
+                    if($(this).hasClass('select')){
+                        console.log('12345')
+                        $(this).removeClass('select');
+                        $(".time div").remove();
+                        $(this).css('background-color','rgba(255, 255, 255,0)'); 
+                        currentSeatClass = $(this).attr('class').split(' ')[1];
+                        $( "#selected_seat ."+currentSeatClass).remove();
+                    }
+                });
+
+                // 检查预定的座位数目是否超出限制
+                $(this).css('background-color','#71DCAA'); // 加背景颜色
+                $(this).addClass("select"); // 添加选中css
+
+                var column_num = parseInt( $(this).index() ) + 1;
+                var row_num = parseInt( $(this).parent().index() )+1;
+                $( "#selected_seat" ).append("<span class='your_selected_seat seat"+row_num+"-"+column_num+" '> " +
+                    "座位号: <b style='color:#EAABFF'>" + row_num+"-"+column_num +"</b> </br></span>");
+                $(".time").append("<div>"+"开始时间："+"<input type='time' value='06:00' id='begintime'>"+"</div>")                    
+                $(".time").append("<div>"+"结束时间："+"<input type='time' value='06:00' id='endtime'>"+"</div>")                    
+
+              
+            }else {
+                $('#errMsg').html('您选中的座位已经超过限制.');
+            }
+    
+            if($(".your_selected_seat").length){
+                $('#bookNowButton').fadeIn(1000);
+            }else {
+                $('#bookNowButton').fadeOut(1000);
+            }
+        }
+    });
+    //}
+    $('#bookNowButton').click(function(){
+        var textIndex = $('#selected_seat span').attr('class').split(' ')[1];
+        var begintime = $('#begintime').val().toString();
+        var endtime = $('#endtime').val().toString();
+        console.log(begintime,endtime);
+        $.post('/upload_seat/', {
+            'csrfmiddlewaretoken':'{{ csrf_token }}',
+            'seatid': textIndex,
+            'status': 'ordered',
+            'begintime':begintime,
+            'endtime':endtime,
+        },function(data){
+            if(data.msg=="OK"){
+                $('#seats .'+textIndex).css('background-color','red');
+                $('#seats .'+textIndex).addClass("selected");
+                $('#seats .'+textIndex).removeClass("select");
+                $( "#selected_seat ."+textIndex).remove();
+                $('#bookNowButton').fadeOut(1000);
+                $(".time div").remove();
+        // alert(textIndex);
+            }
+            if(data.msg=="fail"){
+                alert('已有座位');
+                console.log('1');
+            }
+
+        });
+
+        
+    });
+    $('#return').click(function(){
+        location.href = '/userInfo/' ;
+    });
+});
+    </script>
+    <div id="userId">
+    	
+    </div>
+	<input type="button" name="return" id="return" value="返回" />
+    
+</body>
+</html>
